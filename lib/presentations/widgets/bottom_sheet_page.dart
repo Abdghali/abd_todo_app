@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../bussenis_logic/buttom_sheet_controller.dart';
+import '../../bussenis_logic/buttom_sheet_controller.dart';
 
 class BottomSheetPage extends StatelessWidget {
-  BottomSheetPage({Key? key}) : super(key: key);
-  BottomSheetController _bottomSheetController = Get.find();
+  bool isEdit;
+  BottomSheetController bottomSheetController;
+  BottomSheetPage(
+      {Key? key, this.isEdit = false, required this.bottomSheetController})
+      : super(key: key);
+  // BottomSheetController _bottomSheetController = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -27,11 +31,11 @@ class BottomSheetPage extends StatelessWidget {
             ),
             Expanded(
               child: Form(
-                key: _bottomSheetController.formKey.value,
+                key: bottomSheetController.formKey.value,
                 child: TextFormField(
-                  focusNode: _bottomSheetController.myFocusNode.value,
-                  controller: _bottomSheetController.taskNameController.value,
-                  validator: (v) => _bottomSheetController.nullValidator(v),
+                  focusNode: bottomSheetController.myFocusNode.value,
+                  controller: bottomSheetController.taskNameController.value,
+                  validator: (v) => bottomSheetController.nullValidator(v),
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'Enter your Task name',
@@ -53,51 +57,48 @@ class BottomSheetPage extends StatelessWidget {
                       children: [
                         Radio(
                           value: 0,
-                          groupValue: _bottomSheetController.radioValue.value,
+                          groupValue: bottomSheetController.radioValue.value,
                           onChanged: (value) {
-                            _bottomSheetController.radioValue.value = value!;
+                            bottomSheetController.radioValue.value = value!;
                           },
                         ),
                         Text(
                           'Todo',
                           style: TextStyle(
                               fontSize: 16.0,
-                              color:
-                                  _bottomSheetController.radioValue.value == 0
-                                      ? Colors.black
-                                      : null),
+                              color: bottomSheetController.radioValue.value == 0
+                                  ? Colors.black
+                                  : null),
                         ),
                         Radio(
                           value: 1,
-                          groupValue: _bottomSheetController.radioValue.value,
+                          groupValue: bottomSheetController.radioValue.value,
                           onChanged: (value) {
-                            _bottomSheetController.radioValue.value = value!;
+                            bottomSheetController.radioValue.value = value!;
                           },
                         ),
                         Text(
                           'In Progress',
                           style: TextStyle(
                               fontSize: 16.0,
-                              color:
-                                  _bottomSheetController.radioValue.value == 1
-                                      ? Colors.black
-                                      : null),
+                              color: bottomSheetController.radioValue.value == 1
+                                  ? Colors.black
+                                  : null),
                         ),
                         Radio(
                           value: 2,
-                          groupValue: _bottomSheetController.radioValue.value,
+                          groupValue: bottomSheetController.radioValue.value,
                           onChanged: (value) {
-                            _bottomSheetController.radioValue.value = value!;
+                            bottomSheetController.radioValue.value = value!;
                           },
                         ),
                         Text(
                           'Done',
                           style: TextStyle(
                               fontSize: 16.0,
-                              color:
-                                  _bottomSheetController.radioValue.value == 2
-                                      ? Colors.black
-                                      : null),
+                              color: bottomSheetController.radioValue.value == 2
+                                  ? Colors.black
+                                  : null),
                         ),
                       ],
                     ),
@@ -109,19 +110,29 @@ class BottomSheetPage extends StatelessWidget {
               child: OutlinedButton(
                 style: OutlinedButton.styleFrom(
                     shape: const CircleBorder(),
-                    side: const BorderSide(color: Colors.green),
-                    backgroundColor: _bottomSheetController.clicked.value
-                        ? Colors.green
+                    side: BorderSide(
+                        color: isEdit ? Colors.orange : Colors.green),
+                    backgroundColor: bottomSheetController.clicked.value
+                        ? isEdit
+                            ? Colors.orange
+                            : Colors.green
                         : Colors.transparent),
                 onPressed: () {
-                  _bottomSheetController.onClicked();
+                  bottomSheetController.onClicked(isEdit);
                 },
-                child: Icon(
-                  Icons.done,
-                  color: _bottomSheetController.clicked.value
-                      ? Colors.white
-                      : Colors.green,
-                ),
+                child: isEdit
+                    ? Icon(
+                        Icons.edit,
+                        color: bottomSheetController.clicked.value
+                            ? Colors.white
+                            : Colors.orange,
+                      )
+                    : Icon(
+                        Icons.done,
+                        color: bottomSheetController.clicked.value
+                            ? Colors.white
+                            : Colors.green,
+                      ),
               ),
             ),
           ],

@@ -21,9 +21,29 @@ class BottomSheetController extends BaseController {
     taskNameController.value.clear();
   }
 
-  onClicked() {
+  setDefultTaskType() {
+    radioValue.value = 0;
+  }
+
+  clear() {
+    clearTaskName();
+    setDefultTaskType();
+  }
+
+  createTask() {
+    //Todo store task on db
+    print('create task ');
+  }
+
+  updateTask() {
+    //Todo update task on db
+    print('update task ');
+  }
+
+  onClicked(bool isEdit) {
     if (formKey.value.currentState!.validate()) {
       myFocusNode.value.nextFocus();
+      isEdit ? updateTask() : createTask();
 
       ///
       setClickedValueTrue();
