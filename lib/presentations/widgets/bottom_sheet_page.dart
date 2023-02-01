@@ -36,6 +36,7 @@ class BottomSheetPage extends StatelessWidget {
                   focusNode: bottomSheetController.myFocusNode.value,
                   controller: bottomSheetController.taskNameController.value,
                   validator: (v) => bottomSheetController.nullValidator(v),
+                  onTap: () => bottomSheetController.setClickedValueFalse(),
                   decoration: const InputDecoration(
                     border: UnderlineInputBorder(),
                     labelText: 'Enter your Task name',

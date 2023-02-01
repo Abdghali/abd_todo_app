@@ -8,14 +8,14 @@ class Task {
   int? id;
   String? name;
   TaskStatus? taskStatus;
-  double timeInMicrosecond = 00.00;
+  int SecondTime = 00;
   DateTime? doneDate;
 
   Task({
     this.id,
     this.name,
     this.taskStatus = TaskStatus.todo,
-    this.timeInMicrosecond = 00.00,
+    this.SecondTime = 00,
     this.doneDate,
   });
 
@@ -23,7 +23,7 @@ class Task {
     id = json['id'];
     name = json['name'];
     taskStatus = EnumToString.fromString(TaskStatus.values, json['taskStatus']);
-    timeInMicrosecond = double.parse(json['timeInMicrosecond'] ?? 00);
+    SecondTime = int.parse(json['SecondTime'] ?? 00);
     doneDate = json['doneDate'];
   }
 
@@ -32,7 +32,7 @@ class Task {
     data['id'] = this.id;
     data['name'] = this.name;
     data['taskStatus'] = EnumToString.convertToString(this.taskStatus);
-    data['timeInMicrosecond'] = this.timeInMicrosecond;
+    data['SecondTime'] = this.SecondTime;
     data['doneDate'] = this.doneDate;
     return data;
   }

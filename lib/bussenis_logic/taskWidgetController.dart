@@ -23,17 +23,24 @@ class TaskWidgetController extends GetxController {
         : stopWatchTimer.value.onStopTimer();
     reflexIsPauseValue();
     print("onPause");
+    print(stopWatchTimer.value.secondTime.value);
   }
 
   onDoneTask() {
-    _todoMainPageController.doneList.value.add(task.value);
-    _todoMainPageController.todoList.value.remove(task.value);
-    _todoMainPageController.inProgressList.value.remove(task.value);
+    if (_todoMainPageController.todoList.value.remove(task.value)) {
+      _todoMainPageController.todoList.value.remove(task.value);
+    }
+    if (_todoMainPageController.inProgressList.value.remove(task.value)) {
+      _todoMainPageController.inProgressList.value.remove(task.value);
+    }
 
     /// Todo : detete task from inProgress list and Todo list and add it to Done list.
     print('onDoneTask');
     print(stopWatchTimer.value.rawTime.value);
   }
 
-  init() {}
+  init(Task? myTask) {
+    task.value = myTask!;
+    stopWatchTimer.value.setPresetSecondTime(myTask.SecondTime.toInt());
+  }
 }

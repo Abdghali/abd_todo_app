@@ -6,7 +6,8 @@ import '../../data/task.dart';
 
 class TaskWidget extends StatefulWidget {
   Task task;
-  TaskWidget({Key? key, required this.task}) : super(key: key);
+  void Function()? onDone;
+  TaskWidget({Key? key, required this.task, this.onDone}) : super(key: key);
 
   @override
   State<TaskWidget> createState() => _TaskWidgetState();
@@ -18,7 +19,7 @@ class _TaskWidgetState extends State<TaskWidget> {
   @override
   void initState() {
     super.initState();
-    _taskWidgetController.task.value = widget.task;
+    _taskWidgetController.init(widget.task);
   }
 
   _timerWidget() {
@@ -76,8 +77,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                             ? Icons.pause_outlined
                             : Icons.play_arrow)),
                     IconButton(
-                        onPressed: _taskWidgetController.onDoneTask,
-                        icon: const Icon(Icons.done)),
+                        onPressed: widget.onDone, icon: const Icon(Icons.done)),
                   ],
                 ),
               ),

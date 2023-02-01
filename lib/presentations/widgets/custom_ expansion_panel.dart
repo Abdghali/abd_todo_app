@@ -14,6 +14,7 @@ class CustomExpansionPanel extends StatefulWidget {
   void Function(String?)? onAccept;
   void Function(Task)? delete;
   void Function(Task)? edit;
+  void Function(Task)? onDoneTask;
 
   CustomExpansionPanel(
       {Key? key,
@@ -24,7 +25,8 @@ class CustomExpansionPanel extends StatefulWidget {
       this.onAccept,
       required this.expansionPanelType,
       this.delete,
-      this.edit})
+      this.edit,
+      this.onDoneTask})
       : super(key: key);
 
   @override
@@ -60,6 +62,8 @@ class _CustomExpansionPanelState extends State<CustomExpansionPanel> {
       ),
       child: TaskWidget(
         task: task,
+        onDone: () =>
+            widget.onDoneTask != null ? widget.onDoneTask!(task) : null,
       ),
     );
   }

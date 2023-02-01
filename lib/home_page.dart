@@ -2,7 +2,6 @@ import 'package:abd_todo_app/presentations/widgets/bottom_sheet_page.dart';
 import 'package:abd_todo_app/presentations/widgets/custom_%20expansion_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
 
 import 'bussenis_logic/buttom_sheet_controller.dart';
 import 'bussenis_logic/todo_main_page_controller.dart';
@@ -64,6 +63,10 @@ class _HomePageState extends State<HomePage> {
                         );
                       });
                 },
+                onDoneTask: (taskValue) {
+                  _todoMainPageController.todoList.remove(taskValue);
+                  _todoMainPageController.doneList.add(taskValue);
+                },
               ),
               CustomExpansionPanel(
                 expansionPanelType: ExpansionPanelType.inProgress,
@@ -90,6 +93,10 @@ class _HomePageState extends State<HomePage> {
                           bottomSheetController: _bottomSheetController,
                         );
                       });
+                },
+                onDoneTask: (taskValue) {
+                  _todoMainPageController.inProgressList.remove(taskValue);
+                  _todoMainPageController.doneList.add(taskValue);
                 },
               ),
               CustomExpansionPanel(

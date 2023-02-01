@@ -17,6 +17,10 @@ class BottomSheetController extends BaseController {
     clicked.value = true;
   }
 
+  setClickedValueFalse() {
+    clicked.value = false;
+  }
+
   clearTaskName() {
     taskNameController.value.clear();
   }
