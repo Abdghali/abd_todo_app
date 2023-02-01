@@ -11,10 +11,13 @@ class CustomExpansionPanel extends StatefulWidget {
   bool isExpanded;
   String title;
   ExpansionPanelType expansionPanelType;
+  Icon icon;
+
   void Function(String?)? onAccept;
   void Function(Task)? delete;
   void Function(Task)? edit;
   void Function(Task)? onDoneTask;
+  void Function()? onExpanded;
 
   CustomExpansionPanel(
       {Key? key,
@@ -26,7 +29,9 @@ class CustomExpansionPanel extends StatefulWidget {
       required this.expansionPanelType,
       this.delete,
       this.edit,
-      this.onDoneTask})
+      this.onDoneTask,
+      this.onExpanded,
+      required this.icon})
       : super(key: key);
 
   @override
@@ -108,9 +113,13 @@ class _CustomExpansionPanelState extends State<CustomExpansionPanel> {
                     color: widget.color,
                     shape: BoxShape.circle,
                   ),
+                  child: Center(child: widget.icon),
                 ),
                 trailing: IconButton(
-                    onPressed: () => _expansionPanelController.onClickExpand(),
+                    onPressed: () {
+                      _expansionPanelController.onClickExpand();
+                      widget.onExpanded != null ? widget.onExpanded!() : null;
+                    },
                     icon: Icon(
                       !_expansionPanelController.isExpanded.value
                           ? Icons.arrow_drop_down

@@ -27,7 +27,7 @@ class TodoMainPageController extends GetxController {
         .add(Task(id: ++count.value, name: taskNameController.value.text));
   }
 
-  onAccept(ExpansionPanelType expansionPanelType) {
+  refreshExpansionPanel(ExpansionPanelType expansionPanelType) {
     print(expansionPanelType.index);
     switch (expansionPanelType) {
       case ExpansionPanelType.todo:

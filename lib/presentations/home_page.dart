@@ -3,9 +3,9 @@ import 'package:abd_todo_app/presentations/widgets/custom_%20expansion_panel.dar
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'bussenis_logic/buttom_sheet_controller.dart';
-import 'bussenis_logic/todo_main_page_controller.dart';
-import 'data/task.dart';
+import '../bussenis_logic/buttom_sheet_controller.dart';
+import '../bussenis_logic/todo_main_page_controller.dart';
+import '../data/task.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -20,8 +20,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
   }
 
-  TodoMainPageController _todoMainPageController =
-      Get.put(TodoMainPageController());
+  TodoMainPageController _todoMainPageController = Get.find();
   BottomSheetController _bottomSheetController = Get.find();
   final formKey = GlobalKey<FormState>();
 
@@ -39,12 +38,13 @@ class _HomePageState extends State<HomePage> {
                 height: 20,
               ),
               CustomExpansionPanel(
+                icon: Icon(Icons.today),
                 expansionPanelType: ExpansionPanelType.todo,
                 isExpanded: _todoMainPageController.todoIsExpanded.value,
                 title: 'TODO',
                 tasks: _todoMainPageController.todoList,
-                onAccept: (v) =>
-                    _todoMainPageController.onAccept(ExpansionPanelType.todo),
+                onAccept: (v) => _todoMainPageController
+                    .refreshExpansionPanel(ExpansionPanelType.todo),
                 delete: (task) {
                   print('Delete Todo');
                   print(task.name);
@@ -67,15 +67,18 @@ class _HomePageState extends State<HomePage> {
                   _todoMainPageController.todoList.remove(taskValue);
                   _todoMainPageController.doneList.add(taskValue);
                 },
+                onExpanded: () => _todoMainPageController
+                    .refreshExpansionPanel(ExpansionPanelType.todo),
               ),
               CustomExpansionPanel(
+                icon: Icon(Icons.work_history_outlined),
                 expansionPanelType: ExpansionPanelType.inProgress,
                 isExpanded: _todoMainPageController.inProggressIsExpanded.value,
                 title: 'In Progress',
                 tasks: _todoMainPageController.inProgressList,
                 color: Colors.yellow,
                 onAccept: (v) => _todoMainPageController
-                    .onAccept(ExpansionPanelType.inProgress),
+                    .refreshExpansionPanel(ExpansionPanelType.inProgress),
                 delete: (task) {
                   print('Delete InProgress');
                   print(task.name);
@@ -98,15 +101,18 @@ class _HomePageState extends State<HomePage> {
                   _todoMainPageController.inProgressList.remove(taskValue);
                   _todoMainPageController.doneList.add(taskValue);
                 },
+                onExpanded: () => _todoMainPageController
+                    .refreshExpansionPanel(ExpansionPanelType.inProgress),
               ),
               CustomExpansionPanel(
+                icon: Icon(Icons.done),
                 expansionPanelType: ExpansionPanelType.done,
                 isExpanded: _todoMainPageController.doneExpanded.value,
                 title: 'Done',
                 tasks: _todoMainPageController.doneList,
                 color: Colors.green,
-                onAccept: (v) =>
-                    _todoMainPageController.onAccept(ExpansionPanelType.done),
+                onAccept: (v) => _todoMainPageController
+                    .refreshExpansionPanel(ExpansionPanelType.done),
                 delete: (task) {
                   print('Delete Done');
                   _todoMainPageController.doneList.remove(task);
@@ -124,6 +130,8 @@ class _HomePageState extends State<HomePage> {
                         );
                       });
                 },
+                onExpanded: () => _todoMainPageController
+                    .refreshExpansionPanel(ExpansionPanelType.done),
               ),
             ],
           ),

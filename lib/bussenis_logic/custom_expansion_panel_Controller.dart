@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import '../data/task.dart';
 
 class ExpansionPanelController extends GetxController {
-  TodoMainPageController _todoMainPageController = Get.find();
+  TodoMainPageController _todoMainPageController =
+      Get.put(TodoMainPageController());
 
   RxBool isExpanded = false.obs;
   RxDouble containeHheight = 0.0.obs;
@@ -63,5 +64,6 @@ class ExpansionPanelController extends GetxController {
     isExpanded.value && tasks?.length != null
         ? setContainerHight(((tasks?.length)! * 100))
         : setContainerHight(0);
+    print('is expeanded : ${isExpanded.value}  : ${expansionPanelType.value}');
   }
 }
