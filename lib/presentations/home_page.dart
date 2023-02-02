@@ -2,10 +2,10 @@ import 'package:abd_todo_app/presentations/widgets/bottom_sheet_page.dart';
 import 'package:abd_todo_app/presentations/widgets/custom_%20expansion_panel.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../bussenis_logic/buttom_sheet_controller.dart';
 import '../bussenis_logic/todo_main_page_controller.dart';
-import '../data/task.dart';
+import '../data/models/task.dart';
+import '../data/services/local_db_helper.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -43,17 +43,23 @@ class _HomePageState extends State<HomePage> {
                 isExpanded: _todoMainPageController.todoIsExpanded.value,
                 title: 'TODO',
                 tasks: _todoMainPageController.todoList,
-                onAccept: (v) => _todoMainPageController
-                    .refreshExpansionPanel(ExpansionPanelType.todo),
+                onAccept: (taskValue) {
+                  _todoMainPageController.updateTaskStatus(
+                      taskValue, TaskStatus.todo);
+                  _todoMainPageController
+                      .refreshExpansionPanel(ExpansionPanelType.todo);
+                },
                 delete: (task) {
                   print('Delete Todo');
                   print(task.name);
-                  _todoMainPageController.todoList.remove(task);
+                  // _todoMainPageController.todoList.remove(task);
+                  _todoMainPageController.deleteTask(task);
                 },
                 edit: (v) {
                   _bottomSheetController.taskNameController.value.text =
                       v.name!;
                   _bottomSheetController.radioValue.value = 0;
+                  _bottomSheetController.updatedTask.value = v;
                   showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context) {
@@ -64,8 +70,8 @@ class _HomePageState extends State<HomePage> {
                       });
                 },
                 onDoneTask: (taskValue) {
-                  _todoMainPageController.todoList.remove(taskValue);
-                  _todoMainPageController.doneList.add(taskValue);
+                  _todoMainPageController.updateTaskStatus(
+                      taskValue, TaskStatus.done);
                 },
                 onExpanded: () => _todoMainPageController
                     .refreshExpansionPanel(ExpansionPanelType.todo),
@@ -77,17 +83,21 @@ class _HomePageState extends State<HomePage> {
                 title: 'In Progress',
                 tasks: _todoMainPageController.inProgressList,
                 color: Colors.yellow,
-                onAccept: (v) => _todoMainPageController
-                    .refreshExpansionPanel(ExpansionPanelType.inProgress),
+                onAccept: (taskValue) {
+                  _todoMainPageController.updateTaskStatus(
+                      taskValue, TaskStatus.inProgress);
+                  _todoMainPageController
+                      .refreshExpansionPanel(ExpansionPanelType.inProgress);
+                },
                 delete: (task) {
-                  print('Delete InProgress');
-                  print(task.name);
-                  _todoMainPageController.inProgressList.remove(task);
+                  _todoMainPageController.deleteTask(task);
                 },
                 edit: (v) {
                   _bottomSheetController.taskNameController.value.text =
                       v.name!;
                   _bottomSheetController.radioValue.value = 1;
+                  _bottomSheetController.updatedTask.value = v;
+
                   showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context) {
@@ -98,8 +108,10 @@ class _HomePageState extends State<HomePage> {
                       });
                 },
                 onDoneTask: (taskValue) {
-                  _todoMainPageController.inProgressList.remove(taskValue);
-                  _todoMainPageController.doneList.add(taskValue);
+                  _todoMainPageController.updateTaskStatus(
+                      taskValue, TaskStatus.done);
+                  _todoMainPageController
+                      .refreshExpansionPanel(ExpansionPanelType.done);
                 },
                 onExpanded: () => _todoMainPageController
                     .refreshExpansionPanel(ExpansionPanelType.inProgress),
@@ -111,16 +123,23 @@ class _HomePageState extends State<HomePage> {
                 title: 'Done',
                 tasks: _todoMainPageController.doneList,
                 color: Colors.green,
-                onAccept: (v) => _todoMainPageController
-                    .refreshExpansionPanel(ExpansionPanelType.done),
+                onAccept: (taskValue) {
+                  _todoMainPageController.updateTaskStatus(
+                      taskValue, TaskStatus.done);
+                  _todoMainPageController
+                      .refreshExpansionPanel(ExpansionPanelType.done);
+                },
                 delete: (task) {
                   print('Delete Done');
-                  _todoMainPageController.doneList.remove(task);
+                  // _todoMainPageController.doneList.remove(task);
+                  _todoMainPageController.deleteTask(task);
                 },
                 edit: (v) {
                   _bottomSheetController.taskNameController.value.text =
                       v.name!;
                   _bottomSheetController.radioValue.value = 2;
+                  _bottomSheetController.updatedTask.value = v;
+
                   showModalBottomSheet<void>(
                       context: context,
                       builder: (BuildContext context) {

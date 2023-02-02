@@ -2,7 +2,7 @@ import 'package:abd_todo_app/bussenis_logic/todo_main_page_controller.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
-import '../data/task.dart';
+import '../data/models/task.dart';
 
 class TaskWidgetController extends GetxController {
   TodoMainPageController _todoMainPageController = Get.find();

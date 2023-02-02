@@ -1,6 +1,7 @@
+import 'package:abd_todo_app/data/Repository/task_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
-import '../data/task.dart';
+import '../data/models/task.dart';
 
 class TodoMainPageController extends GetxController {
   RxBool todoIsExpanded = true.obs;
@@ -9,19 +10,12 @@ class TodoMainPageController extends GetxController {
 
   Rx<TextEditingController> taskNameController = TextEditingController().obs;
 
-  RxList<Task> todoList = <Task>[
-    Task(name: "Task 1", taskStatus: TaskStatus.todo, id: 1),
-  ].obs;
-  RxList<Task> inProgressList = <Task>[
-    Task(name: "Task 2", taskStatus: TaskStatus.inProgress, id: 2),
-    Task(name: "Task 3", taskStatus: TaskStatus.inProgress, id: 3),
-  ].obs;
-  RxList<Task> doneList = <Task>[
-    Task(name: "Task 4", taskStatus: TaskStatus.done, id: 4),
-  ].obs;
+  RxList<Task> todoList = <Task>[].obs;
+  RxList<Task> inProgressList = <Task>[].obs;
+  RxList<Task> doneList = <Task>[].obs;
 
   RxInt count = 0.obs;
-
+  TaskRepository _taskRepository = TaskRepository();
   addTaskToTodoList() {
     todoList.value
         .add(Task(id: ++count.value, name: taskNameController.value.text));
@@ -49,5 +43,52 @@ class TodoMainPageController extends GetxController {
         print("done");
         break;
     }
+  }
+
+  RxList<Task> _tasks = <Task>[].obs;
+  @override
+  void onInit() async {
+    _tasks.value = await _taskRepository.getAllTasks();
+    todoList.value =
+        _tasks.value.where((t) => t.taskStatus == TaskStatus.todo).toList();
+    doneList.value =
+        _tasks.value.where((t) => t.taskStatus == TaskStatus.done).toList();
+    inProgressList.value = _tasks.value
+        .where((t) => t.taskStatus == TaskStatus.inProgress)
+        .toList();
+
+    super.onInit();
+  }
+
+  getTaskIndex(Task task) {
+    return _tasks.indexWhere((t) => t.id == task.id);
+  }
+
+  deleteTask(Task task) async {
+    int index = getTaskIndex(task);
+    await _taskRepository.deleteTask(index).then((value) {
+      if (value == -1) {
+        print("Something Wrong");
+      } else {
+        onInit();
+        print("Task deleted sucessfully ");
+      }
+    });
+  }
+
+  updateTaskStatus(Task task, TaskStatus status) async {
+    Task _updatedTask = task;
+    task.taskStatus = status;
+    task.doneDate = DateTime.now();
+    int index = getTaskIndex(task);
+    print('task index: $index');
+    await _taskRepository.updateTask(index, task).then((value) {
+      if (value == -1) {
+        print("Something Wrong");
+      } else {
+        print("Task updated sucessfully ");
+      }
+    });
+    onInit();
   }
 }

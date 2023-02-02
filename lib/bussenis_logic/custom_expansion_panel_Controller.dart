@@ -1,6 +1,6 @@
 import 'package:abd_todo_app/bussenis_logic/todo_main_page_controller.dart';
 import 'package:get/get.dart';
-import '../data/task.dart';
+import '../data/models/task.dart';
 
 class ExpansionPanelController extends GetxController {
   TodoMainPageController _todoMainPageController =

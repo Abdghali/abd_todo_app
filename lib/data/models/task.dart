@@ -19,16 +19,16 @@ class Task {
     this.doneDate,
   });
 
-  Task.fromJson(Map<String, dynamic> json) {
+  Task.fromJson(Map<dynamic, dynamic> json) {
     id = json['id'];
     name = json['name'];
     taskStatus = EnumToString.fromString(TaskStatus.values, json['taskStatus']);
-    SecondTime = int.parse(json['SecondTime'] ?? 00);
+    SecondTime = json['SecondTime'];
     doneDate = json['doneDate'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+  Map<dynamic, dynamic> toJson() {
+    final Map<dynamic, dynamic> data = new Map<dynamic, dynamic>();
     data['id'] = this.id;
     data['name'] = this.name;
     data['taskStatus'] = EnumToString.convertToString(this.taskStatus);

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../../bussenis_logic/taskWidgetController.dart';
-import '../../data/task.dart';
+import '../../data/models/task.dart';
 
 class TaskWidget extends StatefulWidget {
   Task task;

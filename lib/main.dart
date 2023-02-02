@@ -1,10 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
 import 'bindings/app_bindings.dart';
+import 'data/services/local_db_helper.dart';
 import 'presentations/home_page.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalDBHelper.localDbHelper.hiveInit();
   runApp(const MyApp());
 }
 

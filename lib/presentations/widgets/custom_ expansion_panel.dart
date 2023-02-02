@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import '../../bussenis_logic/custom_expansion_panel_Controller.dart';
-import '../../data/task.dart';
+import '../../data/models/task.dart';
 
 class CustomExpansionPanel extends StatefulWidget {
   Color color;
@@ -13,7 +13,7 @@ class CustomExpansionPanel extends StatefulWidget {
   ExpansionPanelType expansionPanelType;
   Icon icon;
 
-  void Function(String?)? onAccept;
+  void Function(Task)? onAccept;
   void Function(Task)? delete;
   void Function(Task)? edit;
   void Function(Task)? onDoneTask;
@@ -150,9 +150,9 @@ class _CustomExpansionPanelState extends State<CustomExpansionPanel> {
         );
       },
       onAccept: (item) {
-        _expansionPanelController.deleteTaskFromPreviousList(item);
-        _expansionPanelController.addTaskToSpecificList(item);
-        widget.onAccept!(widget.title);
+        // _expansionPanelController.deleteTaskFromPreviousList(item);
+        // _expansionPanelController.addTaskToSpecificList(item);
+        widget.onAccept!(item);
       },
     );
   }

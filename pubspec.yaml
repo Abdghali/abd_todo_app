@@ -32,8 +32,11 @@ dependencies:
   enum_to_string: ^2.0.1
   flutter:
     sdk: flutter
+  flutter_secure_storage: ^7.0.0
   flutter_slidable: ^2.0.0
   get: ^4.6.5
+  hive: ^2.2.3
+  path_provider: ^2.0.12
   stop_watch_timer: ^2.0.0
 
 dev_dependencies:
