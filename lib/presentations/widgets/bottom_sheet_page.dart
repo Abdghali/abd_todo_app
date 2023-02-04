@@ -16,7 +16,7 @@ class BottomSheetPage extends StatelessWidget {
     return Obx(
       () => Container(
         height: 290,
-        color: Colors.amber.withOpacity(0.6),
+        color: Colors.blue.withOpacity(0.2),
         padding:
             const EdgeInsets.only(top: 10, left: 20, right: 20, bottom: 30),
         child: Column(
