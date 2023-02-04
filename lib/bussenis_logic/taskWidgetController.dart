@@ -17,27 +17,33 @@ class TaskWidgetController extends GetxController {
     isPause.value = !isPause.value;
   }
 
-  onPause() {
+  onPause() async {
     !isPause.value
         ? stopWatchTimer.value.onExecute.add(StopWatchExecute.start)
         : stopWatchTimer.value.onStopTimer();
     reflexIsPauseValue();
-    print("onPause");
+
+    !isPause.value
+        ? await _todoMainPageController.updateTaskTimer(
+            task.value, stopWatchTimer.value.secondTime.value)
+        : null;
+
+    print("onPause ${isPause.value}");
     print(stopWatchTimer.value.secondTime.value);
   }
 
-  onDoneTask() {
-    if (_todoMainPageController.todoList.value.remove(task.value)) {
-      _todoMainPageController.todoList.value.remove(task.value);
-    }
-    if (_todoMainPageController.inProgressList.value.remove(task.value)) {
-      _todoMainPageController.inProgressList.value.remove(task.value);
-    }
+  // onDoneTask() {
+  //   if (_todoMainPageController.todoList.value.remove(task.value)) {
+  //     _todoMainPageController.todoList.value.remove(task.value);
+  //   }
+  //   if (_todoMainPageController.inProgressList.value.remove(task.value)) {
+  //     _todoMainPageController.inProgressList.value.remove(task.value);
+  //   }
 
-    /// Todo : detete task from inProgress list and Todo list and add it to Done list.
-    print('onDoneTask');
-    print(stopWatchTimer.value.rawTime.value);
-  }
+  //   /// Todo : detete task from inProgress list and Todo list and add it to Done list.
+  //   print('onDoneTask');
+  //   print(stopWatchTimer.value.rawTime.value);
+  // }
 
   init(Task? myTask) {
     task.value = myTask!;

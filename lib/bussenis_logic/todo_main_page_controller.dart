@@ -91,4 +91,18 @@ class TodoMainPageController extends GetxController {
     });
     onInit();
   }
+
+  updateTaskTimer(Task task, int time) async {
+    int index = getTaskIndex(task);
+    task.SecondTime = time;
+    print('task index: $index');
+    await _taskRepository.updateTask(index, task).then((value) {
+      if (value == -1) {
+        print("Something Wrong (Update Timer)");
+      } else {
+        print("Task Timer updated sucessfully ");
+      }
+    });
+    onInit();
+  }
 }
