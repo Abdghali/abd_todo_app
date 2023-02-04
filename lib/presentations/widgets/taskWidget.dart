@@ -22,6 +22,14 @@ class _TaskWidgetState extends State<TaskWidget> {
     _taskWidgetController.init(widget.task);
   }
 
+  getTimeByHour() {
+    Duration _duration = Duration(seconds: widget.task.SecondTime);
+    final HH = _duration.inHours;
+    final mm = (_duration.inMinutes % 60).toString().padLeft(2, '0');
+    final ss = (_duration.inSeconds % 60).toString().padLeft(2, '0');
+    return '${HH.toInt()}:${mm}:${ss}  ';
+  }
+
   _timerWidget() {
     return StreamBuilder<int>(
       stream: _taskWidgetController.stopWatchTimer.value.rawTime,
@@ -67,18 +75,37 @@ class _TaskWidgetState extends State<TaskWidget> {
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: _timerWidget(),
-              trailing: Container(
-                width: 100,
-                child: Row(
+              trailing: Visibility(
+                visible: widget.task.taskStatus != TaskStatus.done,
+                replacement: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  textBaseline: TextBaseline.alphabetic,
                   children: [
-                    IconButton(
-                        onPressed: _taskWidgetController.onPause,
-                        icon: Icon(_taskWidgetController.isPause.value
-                            ? Icons.pause_outlined
-                            : Icons.play_arrow)),
-                    IconButton(
-                        onPressed: widget.onDone, icon: const Icon(Icons.done)),
+                    Text(
+                      "Date : ${widget.task.doneDate!.toUtc().day}-${widget.task.doneDate!.toUtc().month}-${widget.task.doneDate!.toUtc().year}",
+                      style: TextStyle(color: Colors.green),
+                    ),
+                    Text(
+                      "Time : ${getTimeByHour()}",
+                      style: TextStyle(color: Colors.amber),
+                    ),
                   ],
+                ),
+                child: Container(
+                  width: 100,
+                  child: Row(
+                    children: [
+                      IconButton(
+                          onPressed: _taskWidgetController.onPause,
+                          icon: Icon(_taskWidgetController.isPause.value
+                              ? Icons.pause_outlined
+                              : Icons.play_arrow)),
+                      IconButton(
+                          onPressed: widget.onDone,
+                          icon: const Icon(Icons.done)),
+                    ],
+                  ),
                 ),
               ),
             )),

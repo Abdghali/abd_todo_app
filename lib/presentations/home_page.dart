@@ -29,6 +29,9 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Tasks'),
+        actions: [
+          IconButton(onPressed: () {}, icon: Icon(Icons.history)),
+        ],
       ),
       body: Obx(
         () => SingleChildScrollView(
