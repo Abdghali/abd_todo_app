@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 import '../bussenis_logic/buttom_sheet_controller.dart';
 import '../bussenis_logic/todo_main_page_controller.dart';
 import '../data/models/task.dart';
-import '../data/services/local_db_helper.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -30,7 +29,9 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Tasks'),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.history)),
+          IconButton(
+              onPressed: () => _todoMainPageController.getCSV(),
+              icon: const Icon(Icons.download)),
         ],
       ),
       body: Obx(
@@ -120,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                     .refreshExpansionPanel(ExpansionPanelType.inProgress),
               ),
               CustomExpansionPanel(
-                icon: Icon(Icons.done),
+                icon: const Icon(Icons.done),
                 expansionPanelType: ExpansionPanelType.done,
                 isExpanded: _todoMainPageController.doneExpanded.value,
                 title: 'Done',
@@ -170,7 +171,7 @@ class _HomePageState extends State<HomePage> {
                 );
               });
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

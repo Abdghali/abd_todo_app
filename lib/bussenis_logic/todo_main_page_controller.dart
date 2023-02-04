@@ -1,6 +1,11 @@
+import 'dart:io';
+
 import 'package:abd_todo_app/data/Repository/task_repo.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
 import 'package:get/state_manager.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import '../data/models/task.dart';
 
 class TodoMainPageController extends GetxController {
@@ -104,5 +109,24 @@ class TodoMainPageController extends GetxController {
       }
     });
     onInit();
+  }
+
+  getCSV() async {
+    List<List<dynamic>> rows = [];
+    for (int i = 0; i < doneList.length; i++) {
+      List<dynamic> row = [];
+      row.add(doneList[i].id);
+      row.add(doneList[i].name);
+      row.add(doneList[i].SecondTime);
+      row.add(doneList[i].doneDate);
+      row.add(doneList[i].taskStatus);
+      rows.add(row);
+    }
+    String csvData = ListToCsvConverter().convert(rows);
+    final String directory = (await getApplicationSupportDirectory()).path;
+    final path = "$directory/csv-${DateTime.now()}.csv";
+    final File file = File(path);
+    await file.writeAsString(csvData);
+    OpenFile.open(path);
   }
 }
