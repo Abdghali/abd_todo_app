@@ -82,14 +82,12 @@ class _TaskWidgetState extends State<TaskWidget> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   textBaseline: TextBaseline.alphabetic,
                   children: [
-                    Text(
-                      "Date : ${widget.task.doneDate!.toUtc().day}-${widget.task.doneDate!.toUtc().month}-${widget.task.doneDate!.toUtc().year}",
-                      style: TextStyle(color: Colors.green),
-                    ),
-                    // Text(
-                    //   "Time : ${getTimeByHour()}",
-                    //   style: TextStyle(color: Colors.amber),
-                    // ),
+                    widget.task.doneDate != null
+                        ? Text(
+                            "Date : ${widget.task.doneDate?.toUtc().day}-${widget.task.doneDate?.toUtc().month}-${widget.task.doneDate!.toUtc().year}",
+                            style: TextStyle(color: Colors.green),
+                          )
+                        : Container(),
                   ],
                 ),
                 child: Container(
