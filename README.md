@@ -1,16 +1,72 @@
-# abd_todo_app
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+{
+    "type": "Screen",
+    "appBar": {
+        "type": "AppBar",
+        "attributes": {
+            "title": "Profile"
+        }
+    },
+    "child": {
+        "type": "Form",
+        "attributes": {
+            "padding": 10
+        },
+        "children": [
+            {
+                "type": "Input",
+                "attributes": {
+                    "name": "first_name",
+                    "value": "Ray",
+                    "caption": "First Name",
+                    "maxLength": 30
+                }
+            },
+            {
+                "type": "Input",
+                "attributes": {
+                    "name": "last_name",
+                    "value": "Sponsible",
+                    "caption": "Last Name",
+                    "maxLength": 30
+                }
+            },
+            {
+                "type": "Input",
+                "attributes": {
+                    "name": "email",
+                    "value": "ray.sponsible@gmail.com",
+                    "caption": "Email *",
+                    "required": true
+                }
+            },
+            {
+                "type": "Input",
+                "attributes": {
+                    "type": "date",
+                    "name": "birth_date",
+                    "caption": "Date of Birth"
+                }
+            },
+            {
+                "type": "Input",
+                "attributes": {
+                    "type": "Submit",
+                    "name": "submit",
+                    "caption": "Create Profile"
+                },
+                "action": {
+                    "type": "Command",
+                    "url": "https://myapp.herokuapp.com/commands/save-profile",
+                    "prompt": {
+                        "type": "Dialog",
+                        "attributes": {
+                            "type": "confirm",
+                            "title": "Confirmation",
+                            "message": "Are you sure you want to change your profile?"
+                        }
+                    }
+                }
+            }
+        ]
+    }
+}
